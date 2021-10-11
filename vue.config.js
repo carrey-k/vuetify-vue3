@@ -1,5 +1,3 @@
-const path = require('path')
-
 module.exports = {
   transpileDependencies: ['vuetify'],
   lintOnSave: false,
@@ -7,32 +5,27 @@ module.exports = {
   configureWebpack: {
     devtool: 'source-map',
     resolve: {
-      alias: {
-        vuetify: path.resolve(__dirname, 'node_modules/vuetify'),
-      },
+      alias: {},
     },
   },
   chainWebpack: (config) => {
     // prevent webpack preload plugin from adding a prefetch tag to all async chunks
     // config.plugins.delete('prefetch');
     // eslint-disable-next-line no-unused-vars
-    config.plugin('VuetifyLoaderPlugin').tap((args) => [
-      {
-        progressiveImages: true,
-      },
-      {
-        match(originalTag, { kebabTag, camelTag, path, component }) {
-          if (kebabTag.startsWith('core-')) {
-            return [
-              camelTag,
-              `import ${camelTag} from '@/components/core/${camelTag.substring(
-                4
-              )}.vue'`,
-            ]
-          }
-        },
-      },
-    ])
+    // config.plugin('VuetifyLoaderPlugin').tap((args) => [
+    //   {
+    //     match(originalTag, { kebabTag, camelTag, path, component }) {
+    //       if (kebabTag.startsWith('core-')) {
+    //         return [
+    //           camelTag,
+    //           `import ${camelTag} from '@/components/core/${camelTag.substring(
+    //             4
+    //           )}.vue'`,
+    //         ]
+    //       }
+    //     },
+    //   },
+    // ])
     config.plugin('html').tap((args) => {
       args[0].title = 'Administration Center'
       return args
